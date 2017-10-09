@@ -1,21 +1,14 @@
 package file
 
 import (
-	"fmt"
 	"os"
-	"path/filepath"
+	"thelark.cn/golang.ext/wrong"
 )
 
 /**
  * TODO: 文件操作扩展
  */
 
-// TODO: 获取文件路径的相对路径 (相对GOPATH)
-func GetFileRelPath(filePath string) string {
-	relPath, err := filepath.Rel(fmt.Sprintf("%s/%s", os.Getenv("GOPATH"), "src"), filePath)
-	_ = err
-	return relPath
-}
 // TODO: 判断路径是否存在
 func IsExist(path string) bool {
 	_, err := os.Stat(path)
@@ -25,6 +18,15 @@ func IsExist(path string) bool {
 	if os.IsNotExist(err) {
 		return false
 	}
-	_ = err
+	wrong.Println(err)
 	return false
+}
+
+// TODO: 创建目录
+func MkDIR(path string) {
+	if IsExist(path) {
+		return
+	}
+	err := os.MkdirAll(path, 0777)
+	wrong.Println(err)
 }

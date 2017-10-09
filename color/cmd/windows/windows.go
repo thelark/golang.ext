@@ -51,10 +51,6 @@ const (
 var kernel32 *syscall.LazyDLL
 var proc *syscall.LazyProc
 
-func init() {
-	kernel32 = syscall.NewLazyDLL("kernel32.dll")
-	proc = kernel32.NewProc("SetConsoleTextAttribute")
-}
 
 func Restore() {
 	handle, _, _ := proc.Call(uintptr(syscall.Stdout), uintptr(WhiteDark|BgBlack))
@@ -65,6 +61,8 @@ func SetColor(c colorCode) {
 	proc.Call(uintptr(syscall.Stdout), uintptr(c))
 }
 func Init(color, bgColor colorCode) *Color {
+	kernel32 = syscall.NewLazyDLL("kernel32.dll")
+	proc = kernel32.NewProc("SetConsoleTextAttribute")
 	return &Color{colorCode: color | bgColor}
 }
 

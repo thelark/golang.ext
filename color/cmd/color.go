@@ -74,4 +74,3 @@ func Gray() color {
 	}
 	return linux.Init(linux.Black, linux.BgBlack, linux.B)
 }
-
