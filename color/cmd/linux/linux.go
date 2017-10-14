@@ -3,6 +3,7 @@ package linux
 import "fmt"
 
 type colorCode uint
+
 const (
 	Black  colorCode = iota + 30
 	Red
@@ -25,6 +26,7 @@ const (
 )
 
 type ShowMode uint
+
 const (
 	// R reset emphasis style
 	R ShowMode = 0
@@ -62,4 +64,3 @@ func (c *Color) Println(s interface{}) {
 func (c *Color) Printf(format string, args ...interface{}) {
 	fmt.Printf(fmt.Sprintf(c.buildColor(), fmt.Sprintf(format, args...)))
 }
-
