@@ -1,29 +1,35 @@
-package linux
+// +build !windows
+
+package console
 
 import "fmt"
 
+type Color struct {
+	showMode ShowMode
+	color    colorCode
+	bgcolor  colorCode
+}
 type colorCode uint
 
-const (
-	Black  colorCode = iota + 30
-	Red
-	Green
-	Yellow
-	Blue
-	Purple
-	Cyan
-	White
-)
-const (
-	BgBlack  colorCode = iota + 40
-	BgRed
-	BgGreen
-	BgYellow
-	BgBlue
-	BgPurple
-	BgCyan
-	BgWhite
-)
+var color = map[string]colorCode{
+	"Black":  30,
+	"Red":    31,
+	"Green":  32,
+	"Yellow": 33,
+	"Blue":   34,
+	"Purple": 35,
+	"Cyan":   36,
+	"White":  37,
+
+	"BgBlack":  40,
+	"BgRed":    41,
+	"BgGreen":  42,
+	"BgYellow": 43,
+	"BgBlue":   44,
+	"BgPurple": 45,
+	"BgCyan":   46,
+	"BgWhite":  47,
+}
 
 type ShowMode uint
 
@@ -45,12 +51,6 @@ const (
 	// S strikeout emphasis style
 	S ShowMode = 9
 )
-
-type Color struct {
-	showMode ShowMode
-	color    colorCode
-	bgcolor  colorCode
-}
 
 func Init(color, bgcolor colorCode, showMode ShowMode) *Color {
 	return &Color{showMode: showMode, color: color, bgcolor: bgcolor}

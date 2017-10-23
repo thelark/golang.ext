@@ -1,7 +1,7 @@
 package wrong
 
 import (
-	"thelark.cn/golang.ext/color/cmd"
+	"thelark.cn/golang.ext/color/console"
 	"log"
 )
 
@@ -11,7 +11,7 @@ func init() {
 
 const __PREFIX__ = "[ERROR] "
 
-var __RED__ = cmd.Red()
+var __RED__ = console.Red()
 
 func __printf__(format string, args ...interface{}) {
 	__RED__.Printf(__PREFIX__)

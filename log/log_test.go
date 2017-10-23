@@ -10,25 +10,37 @@ import (
 var fileName = "test.log"
 
 func TestNew(t *testing.T) {
-	l := New(fileName)
+	fi, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE, 0777)
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ltime|Ldate|Lshortfile)
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 }
-func TestLogger_FATAL(t *testing.T) {
-	l := New(fileName)
+func TestLogger_Fatal(t *testing.T) {
+	fi, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE, 0777)
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ltime|Ldate|Lshortfile)
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
 	l.SetFlags(Ltime | Ldate)
 	l.SetLevel(ALL)
-	l.FATAL("fatal info ~")
+	msg := "fatal info ~"
+	l.Fatal(msg)
+
 	str, err := readFile("test.log")
 	if err != nil {
 		t.Error("错误: ", err)
 	}
-	if !strings.Contains(str, "fatal info ~") {
+	if !strings.Contains(str, msg) {
 		t.Error("错误: 未写入文件")
 	}
 }

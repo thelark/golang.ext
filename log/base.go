@@ -13,7 +13,7 @@ func __setFlags__(flags int) {
 func __prefix__() string {
 	return log.Prefix()
 }
-func __setPrefix(prefix string) {
+func __setPrefix__(prefix string) {
 	log.SetPrefix(prefix)
 }
 func __level__(level __LogLevel__) {

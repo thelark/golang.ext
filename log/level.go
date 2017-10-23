@@ -1,6 +1,6 @@
 package log
 
-import "thelark.cn/golang.ext/color/cmd"
+import "thelark.cn/golang.ext/color/console"
 
 type __LogLevel__ uint // log 级别
 
@@ -25,11 +25,11 @@ var __LogLevelName__ = map[__LogLevel__]string{
 }
 
 var __LogLevelColorPrintfFunc__ = map[__LogLevel__]func(format string, args ...interface{}){
-	OFF:   cmd.Black().Printf,
-	FATAL: cmd.Magenta().Printf,
-	ERROR: cmd.Red().Printf,
-	WARN:  cmd.Yellow().Printf,
-	INFO:  cmd.Cyan().Printf,
-	DEBUG: cmd.Green().Printf,
-	ALL:   cmd.White().Printf,
+	OFF:   console.Black().Printf,
+	FATAL: console.Magenta().Printf,
+	ERROR: console.Red().Printf,
+	WARN:  console.Yellow().Printf,
+	INFO:  console.Cyan().Printf,
+	DEBUG: console.Green().Printf,
+	ALL:   console.White().Printf,
 }

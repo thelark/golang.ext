@@ -1,10 +1,9 @@
 package log
 
 import (
-	"os"
 	"log"
-	"thelark.cn/golang.ext/wrong"
 	"io"
+	"fmt"
 )
 
 type Logger struct {
@@ -13,19 +12,21 @@ type Logger struct {
 	logger *log.Logger
 }
 
-// TODO: 初始化日志文件
-func __init__(fileName string) *Logger {
-
-	//fi, err := os.OpenFile(fileName, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
-	//wrong.Println(err)
-	//defer fi.Close()
-	fii, err := os.Create(fileName)
-	wrong.Println(err)
-	//defer fii.Close()
-
-	return &Logger{DEBUG, true, log.New(fii, "", Ldate|Ltime|Lshortfile)}
+/**
+ * TODO: 初始化日志文件
+ * @params writer 文件流
+ * @params prefix 日志前缀
+ * @params flags 日志 flag
+ * @return *Logger
+ */
+func __init__(out io.Writer, prefix string, flags int) *Logger {
+	return &Logger{DEBUG, true, log.New(out, prefix, flags)}
 }
 
+/**
+ * TODO: 设置输出
+ * @params writer 文件流
+ */
 func (l *Logger) __setOutput__(w io.Writer) {
 	l.logger.SetOutput(w)
 }
@@ -33,25 +34,42 @@ func (l *Logger) __output__(calldepth int, s string) error {
 	return l.logger.Output(calldepth, s)
 }
 
+/**
+ * TODO: 获取 flags
+ * @return int
+ */
 func (l *Logger) __flags__() int {
 	return l.logger.Flags()
 }
+
+/**
+ * TODO: 设置 flags
+ * @params flags flags
+ */
 func (l *Logger) __setFlags__(flags int) {
 	l.logger.SetFlags(flags)
 }
+
+/**
+ * TODO: 获取 前缀
+ * @return string
+ */
 func (l *Logger) __prefix__() string {
 	return l.logger.Prefix()
 }
+
+/**
+ * TODO: 设置 前缀
+ * @params prefix 前缀
+ */
 func (l *Logger) __setPrefix__(prefix string) {
 	l.logger.SetPrefix(prefix)
 }
 
-func (l *Logger) __setFile__(fileName string) {
-	fi, err := os.OpenFile(fileName, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
-	defer fi.Close()
-	wrong.Println(err)
-	l.__setOutput__(fi)
-}
+/**
+ * TODO: 设置 级别
+ * @params level 日志级别
+ */
 func (l *Logger) __setLevel__(level __LogLevel__) {
 	l.level = level
 }
@@ -68,16 +86,10 @@ func (l *Logger) __close__() {
 
 // TODO: 验证是否开启日志记录(文件操作)
 func (l *Logger) __check__(level __LogLevel__) bool {
-	if l.flag {
-		return false
-	}
-	if l.level < level {
-		return false
-	}
-	return true
+	return l.flag && l.level >= level
 }
-func (l *Logger) __level__(level __LogLevel__) {
-	l.logger.Printf("[%s]\t", __LogLevelName__[level])
+func (l *Logger) __level__(level __LogLevel__, v ...interface{}) string {
+	return fmt.Sprintf("[%s]\t", __LogLevelName__[level])
 }
 
 func (l *Logger) __printf__(format string, v ...interface{}) {

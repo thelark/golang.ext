@@ -1,13 +1,16 @@
 package log
 
-import "log"
+import (
+	"log"
+	"io"
+)
 
 func init() {
 	log.SetFlags(log.LstdFlags)
 }
 
-func New(fileName string) *Logger {
-	return __init__(fileName)
+func New(writer io.Writer, prefix string, flags int) *Logger {
+	return __init__(writer, prefix, flags)
 }
 
 // 开启记录日志
@@ -23,8 +26,8 @@ func (l *Logger) Close() {
 func (l *Logger) SetFlags(flags int) {
 	l.__setFlags__(flags)
 }
-func (l *Logger) SetFile(fileName string) {
-	l.__setFile__(fileName)
+func (l *Logger) SetOutput(writer io.Writer) {
+	l.__setOutput__(writer)
 }
 func (l *Logger) SetLevel(level __LogLevel__) {
 	l.__setLevel__(level)
@@ -36,35 +39,149 @@ func (l *Logger) SetLevel(level __LogLevel__) {
 //INFO=> Cyan // 信息
 //DEBUG => Green // 调试
 //ALL => White // 所有
-func (l *Logger) Fatal(info string) {
+func (l *Logger) Print(v ...interface{}) {
+	if !l.__check__(ALL) {
+		return
+	}
+	l.__print__(v...)
+}
+func (l *Logger) Printf(format string, v ...interface{}) {
+	if !l.__check__(ALL) {
+		return
+	}
+	l.__printf__(format, v...)
+}
+func (l *Logger) Println(v ...interface{}) {
+	if !l.__check__(ALL) {
+		return
+	}
+	l.__println__(v...)
+}
+func (l *Logger) Panic(v ...interface{}) {
+	if !l.__check__(OFF) {
+		return
+	}
+	l.__setPrefix__(l.__level__(OFF))
+	l.__panic__(v...)
+}
+func (l *Logger) Panicf(format string, v ...interface{}) {
+	if !l.__check__(OFF) {
+		return
+	}
+	l.__setPrefix__(l.__level__(OFF))
+	l.__panicf__(format, v...)
+}
+func (l *Logger) Panicln(v ...interface{}) {
+	if !l.__check__(OFF) {
+		return
+	}
+	l.__setPrefix__(l.__level__(OFF))
+	l.__panicln__(v...)
+}
+func (l *Logger) Fatal(v ...interface{}) {
 	if !l.__check__(FATAL) {
 		return
 	}
-	l.__println__(FATAL, info)
+	l.__setPrefix__(l.__level__(FATAL))
+	l.__fatal__(v...)
 }
-func (l *Logger) Error(info string) {
+func (l *Logger) Fatalf(format string, v ...interface{}) {
+	if !l.__check__(FATAL) {
+		return
+	}
+	l.__setPrefix__(l.__level__(FATAL))
+	l.__fatalf__(format, v...)
+}
+func (l *Logger) Fatalln(v ...interface{}) {
+	if !l.__check__(FATAL) {
+		return
+	}
+	l.__setPrefix__(l.__level__(FATAL))
+	l.__fatalln__(v...)
+}
+func (l *Logger) Error(v ...interface{}) {
 	if !l.__check__(ERROR) {
 		return
 	}
-	l.__println__(ERROR, info)
+	l.__setPrefix__(l.__level__(ERROR))
+	l.__print__( v...)
 }
-func (l *Logger) Warn(info string) {
+func (l *Logger) Errorf(format string, v ...interface{}) {
+	if !l.__check__(ERROR) {
+		return
+	}
+	l.__setPrefix__(l.__level__(ERROR))
+	l.__printf__(format, v...)
+}
+func (l *Logger) Errorln(v ...interface{}) {
+	if !l.__check__(ERROR) {
+		return
+	}
+	l.__setPrefix__(l.__level__(ERROR))
+	l.__println__(v...)
+}
+func (l *Logger) Warn(v ...interface{}) {
 	if !l.__check__(WARN) {
 		return
 	}
-	l.__println__(WARN, info)
+	l.__setPrefix__(l.__level__(WARN))
+	l.__print__(v...)
 }
-func (l *Logger) Info(info string) {
+func (l *Logger) Warnf(format string, v ...interface{}) {
+	if !l.__check__(WARN) {
+		return
+	}
+	l.__setPrefix__(l.__level__(WARN))
+	l.__printf__(format, v...)
+}
+func (l *Logger) Warnln(v ...interface{}) {
+	if !l.__check__(WARN) {
+		return
+	}
+	l.__setPrefix__(l.__level__(WARN))
+	l.__println__(v...)
+}
+func (l *Logger) Info(v ...interface{}) {
 	if !l.__check__(INFO) {
 		return
 	}
-	l.__println__(INFO, info)
+	l.__setPrefix__(l.__level__(INFO))
+	l.__print__(v...)
 }
-func (l *Logger) Debug(info string) {
+func (l *Logger) Infof(format string, v ...interface{}) {
+	if !l.__check__(INFO) {
+		return
+	}
+	l.__setPrefix__(l.__level__(INFO))
+	l.__printf__(format, v...)
+}
+func (l *Logger) Infoln(v ...interface{}) {
+	if !l.__check__(INFO) {
+		return
+	}
+	l.__setPrefix__(l.__level__(INFO))
+	l.__println__(v...)
+}
+func (l *Logger) Debug(v ...interface{}) {
 	if !l.__check__(DEBUG) {
 		return
 	}
-	l.__println__(DEBUG, info)
+	l.__setPrefix__(l.__level__(DEBUG))
+	l.__print__(v...)
+}
+func (l *Logger) Debugf(format string, v ...interface{}) {
+	if !l.__check__(DEBUG) {
+		return
+	}
+	l.__setPrefix__(l.__level__(DEBUG))
+	l.__printf__(format, v...)
+}
+func (l *Logger) Debugln(v ...interface{}) {
+	if !l.__check__(DEBUG) {
+		return
+	}
+	l.__setPrefix__(l.__level__(DEBUG))
+	l.__println__(v...)
 }
 
 func Flags() int {
@@ -77,7 +194,7 @@ func Prefix() string {
 	return __prefix__()
 }
 func SetPrefix(prefix string) {
-	__setPrefix(prefix)
+	__setPrefix__(prefix)
 }
 
 func Print(v ...interface{}) {
