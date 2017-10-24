@@ -17,3 +17,11 @@ func __printf__(format string, args ...interface{}) {
 	__RED__.Printf(__PREFIX__)
 	log.Printf(format, args...)
 }
+func __panicf__(format string, args ...interface{}) {
+	__RED__.Printf(__PREFIX__)
+	log.Panicf(format, args...)
+}
+func __fatalf__(format string, args ...interface{}) {
+	__RED__.Printf(__PREFIX__)
+	log.Fatalf(format, args...)
+}

@@ -8,13 +8,13 @@ func Println(err error) error {
 }
 func Panicln(err error) error {
 	if err != nil {
-		__printf__("%v\n", err)
+		__panicf__("%v\n", err)
 	}
 	return err
 }
 func Fatalln(err error) error {
 	if err != nil {
-		__printf__("%v\n", err)
+		__fatalf__("%v\n", err)
 	}
 	return err
 }

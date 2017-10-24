@@ -5,15 +5,38 @@ import (
 	"thelark.cn/golang.ext/base"
 )
 
-// 标准
-const (
-	yyyy = "2006" // 年
-	MM   = "01"   // 月
-	dd   = "02"   // 日
-	HH   = "15"   // 时
-	mm   = "04"   // 分
-	ss   = "05"   // 秒
-)
+var timeKeys = []string{
+	"GMT",    // 时区
+	"yyyy",   // 标准年
+	"yy",     // 2 位年
+	"MMM",    // 月
+	"MM",     // 月
+	"ddd",    // 周
+	"dd",     // 日
+	"d",      // 日
+	"HH",     // 时
+	"mm",     // 分
+	"ss",     // 秒
+	"fff",    // 毫秒
+	"ffffff", // 纳秒
+}
+var timeMap = map[string]string{
+	"GMT":    "MST",
+	"yyyy":   "2006",
+	"yy":     "06",
+	"MMM":    "Jan",
+	"MM":     "01",
+	"ddd":    "Mon",
+	"dd":     "02",
+	"d":      "_2",
+	"HH":     "15",
+	"mm":     "04",
+	"ss":     "05",
+	"fff":    ".000",
+	"ffffff": ".000000",
+}
+
+
 const (
 	yy  = "06" // 年
 	星期  = "Mon"
