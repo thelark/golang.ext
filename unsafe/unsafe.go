@@ -63,6 +63,17 @@ func ParseInt64(s string, base int) int64 {
 }
 
 /**
+ * TODO: string => uint
+ * @param s uint的字符串形式
+ * @param base uint8字符串的进制 比如二进制 八进制 十进制 十六进制
+ * @return uint
+ */
+func ParseUint(s string, base int) uint {
+	i, _ := strconv.ParseUint(s, base, 32)
+	return uint(i)
+}
+
+/**
  * TODO: string => uint8
  * @param s uint8的字符串形式
  * @param base uint8字符串的进制 比如二进制 八进制 十进制 十六进制

@@ -14,6 +14,7 @@ func init() {
 }
 
 type colorInterface interface {
+	Print(s interface{})
 	Println(s interface{})
 	Printf(format string, args ...interface{})
 }

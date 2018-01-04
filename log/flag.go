@@ -9,5 +9,5 @@ const (
 	Llongfile     = log.Llongfile     // full file name and line number: /a/b/c/d.go:23 全路径文件名和行号
 	Lshortfile    = log.Lshortfile    // final file name element and line number: d.go:23. overrides Llongfile 文件名和行号
 	LUTC          = log.LUTC
+	LstdFlags     = log.LstdFlags
 )
-

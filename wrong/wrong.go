@@ -1,20 +1,23 @@
 package wrong
 
 func Println(err error) error {
+	target, e := core()
 	if err != nil {
-		__printf__("%v\n", err)
+		__printf__("%s: %s", target, err.Error())
 	}
-	return err
+	return e
 }
 func Panicln(err error) error {
+	target, e := core()
 	if err != nil {
-		__panicf__("%v\n", err)
+		__panicf__("%s: %s", target, err.Error())
 	}
-	return err
+	return e
 }
 func Fatalln(err error) error {
+	target, e := core()
 	if err != nil {
-		__fatalf__("%v\n", err)
+		__fatalf__("%s: %s", target, err.Error())
 	}
-	return err
+	return e
 }

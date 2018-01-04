@@ -3,8 +3,8 @@
 package console
 
 import (
-	"syscall"
 	"fmt"
+	"syscall"
 )
 
 var (
@@ -64,6 +64,7 @@ func SetColor(c colorCode) {
 }
 
 type ShowMode uint
+
 const (
 	// R reset emphasis style
 	R ShowMode = 0
@@ -82,10 +83,15 @@ const (
 	// S strikeout emphasis style
 	S ShowMode = 9
 )
+
 func Init(color, bgColor colorCode, showMode ShowMode) *Color {
 	return &Color{colorCode: color | bgColor}
 }
-
+func (c *Color) Print(s interface{}) {
+	SetColor(c.colorCode)
+	fmt.Print(s)
+	Restore()
+}
 func (c *Color) Println(s interface{}) {
 	SetColor(c.colorCode)
 	fmt.Println(s)

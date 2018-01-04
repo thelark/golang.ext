@@ -58,6 +58,9 @@ func Init(color, bgcolor colorCode, showMode ShowMode) *Color {
 func (c *Color) buildColor() string {
 	return fmt.Sprintf("%c[%d;%d;%dm%s%c[0m", 0x1B, c.showMode, c.bgcolor, c.color, "%s", 0x1B)
 }
+func (c *Color) Print(s interface{}) {
+	fmt.Print(fmt.Sprintf(c.buildColor(), s))
+}
 func (c *Color) Println(s interface{}) {
 	fmt.Println(fmt.Sprintf(c.buildColor(), s))
 }

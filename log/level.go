@@ -25,7 +25,6 @@ var __LogLevelName__ = map[__LogLevel__]string{
 }
 
 var __LogLevelColorPrintfFunc__ = map[__LogLevel__]func(format string, args ...interface{}){
-	OFF:   console.Black().Printf,
 	FATAL: console.Magenta().Printf,
 	ERROR: console.Red().Printf,
 	WARN:  console.Yellow().Printf,

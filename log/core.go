@@ -1,9 +1,9 @@
 package log
 
 import (
-	"log"
-	"io"
 	"fmt"
+	"io"
+	"log"
 )
 
 type Logger struct {

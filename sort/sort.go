@@ -1,8 +1,8 @@
 package sort
 
 import (
-	"sort"
 	"fmt"
+	"sort"
 )
 
 // ASC 正序
@@ -14,16 +14,21 @@ const (
 	DESC
 )
 
-//定义interface{},并实现sort.Interface接口的三个方法
-type IntSlice []interface{}
+func NewSlice(datas ...interface{}) interfaceSlice {
+	return interfaceSlice(datas)
+}
 
-func (c IntSlice) Len() int {
+var defaultSortRule = ASC
+//定义interface{},并实现sort.Interface接口的三个方法
+type interfaceSlice []interface{}
+
+func (c interfaceSlice) Len() int {
 	return len(c)
 }
-func (c IntSlice) Swap(i, j int) {
+func (c interfaceSlice) Swap(i, j int) {
 	c[i], c[j] = c[j], c[i]
 }
-func (c IntSlice) Less(i, j int) bool {
+func (c interfaceSlice) Less(i, j int) bool {
 	switch defaultSortRule {
 	case ASC:
 		return fmt.Sprintf("%v", c[i]) < fmt.Sprintf("%v", c[j])
@@ -34,9 +39,7 @@ func (c IntSlice) Less(i, j int) bool {
 	}
 }
 
-var defaultSortRule = ASC
-
-func (c IntSlice) Sort(rule ...sortRule) error {
+func (c interfaceSlice) Sort(rule ...sortRule) error {
 	if len(rule) > 1 {
 		return fmt.Errorf("传入了过多的排序规则...")
 	}
