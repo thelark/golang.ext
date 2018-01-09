@@ -36,6 +36,7 @@ var color = map[string]colorCode{
 	"YellowLight": 14,
 	"White":       15,
 
+
 	"BgBlack":       0x10 * 0,
 	"BgBlueDark":    0x10 * 1,
 	"BgGreenDark":   0x10 * 2,

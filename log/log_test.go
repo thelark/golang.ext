@@ -5,30 +5,23 @@ import (
 	"os"
 	"strings"
 	"testing"
-	"thelark.cn/golang.ext/wrong"
 )
 
 var fileName = "example.log"
-var err error
-var fi *os.File
 
-func init() {
-	fi, err = os.OpenFile(fileName, os.O_APPEND|os.O_CREATE, 0777)
-	wrong.Println(err)
-	defer fi.Close()
-}
 func TestNew(t *testing.T) {
-	fi, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE, 0777)
+	fi, err := openFile()
 	if err != nil {
 		t.Error(err)
 	}
 	defer fi.Close()
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 }
-func TestLogger_Fatal(t *testing.T) {
+
+/*func TestLogger_Fatal(t *testing.T) {
 	l := New(fi, "", Ltime|Ldate|Lshortfile)
 	if l == nil {
 		t.Error("初始化有误！")
@@ -142,19 +135,24 @@ func TestLogger_Panicln(t *testing.T) {
 	if !strings.Contains(str, msg) {
 		t.Error("错误: 未写入文件")
 	}
-}
+}*/
 
 func TestLogger_Error(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "error info ~"
 	l.Error(msg)
-
 	str, err := readFile("example.log")
 	if err != nil {
 		t.Error("错误: ", err)
@@ -164,12 +162,18 @@ func TestLogger_Error(t *testing.T) {
 	}
 }
 func TestLogger_Errorf(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "errorf info ~"
 	l.Errorf(msg)
@@ -183,12 +187,18 @@ func TestLogger_Errorf(t *testing.T) {
 	}
 }
 func TestLogger_Errorln(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "errorln info ~"
 	l.Errorln(msg)
@@ -203,12 +213,18 @@ func TestLogger_Errorln(t *testing.T) {
 }
 
 func TestLogger_Warn(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "warn info ~"
 	l.Warn(msg)
@@ -222,12 +238,18 @@ func TestLogger_Warn(t *testing.T) {
 	}
 }
 func TestLogger_Warnf(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "warnf info ~"
 	l.Warnf(msg)
@@ -241,12 +263,18 @@ func TestLogger_Warnf(t *testing.T) {
 	}
 }
 func TestLogger_Warnln(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "warnln info ~"
 	l.Warnln(msg)
@@ -261,12 +289,18 @@ func TestLogger_Warnln(t *testing.T) {
 }
 
 func TestLogger_Info(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "info info ~"
 	l.Info(msg)
@@ -280,12 +314,18 @@ func TestLogger_Info(t *testing.T) {
 	}
 }
 func TestLogger_Infof(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "infof info ~"
 	l.Infof(msg)
@@ -299,12 +339,18 @@ func TestLogger_Infof(t *testing.T) {
 	}
 }
 func TestLogger_Infoln(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "infoln info ~"
 	l.Infoln(msg)
@@ -319,12 +365,18 @@ func TestLogger_Infoln(t *testing.T) {
 }
 
 func TestLogger_Debug(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "debug info ~"
 	l.Debug(msg)
@@ -338,12 +390,18 @@ func TestLogger_Debug(t *testing.T) {
 	}
 }
 func TestLogger_Debugf(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "debugf info ~"
 	l.Debugf(msg)
@@ -357,12 +415,18 @@ func TestLogger_Debugf(t *testing.T) {
 	}
 }
 func TestLogger_Debugln(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "debugln info ~"
 	l.Debugln(msg)
@@ -377,12 +441,18 @@ func TestLogger_Debugln(t *testing.T) {
 }
 
 func TestLogger_Print(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "print info ~"
 	l.Print(msg)
@@ -396,12 +466,18 @@ func TestLogger_Print(t *testing.T) {
 	}
 }
 func TestLogger_Printf(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "printf info ~"
 	l.Printf(msg)
@@ -415,12 +491,18 @@ func TestLogger_Printf(t *testing.T) {
 	}
 }
 func TestLogger_Println(t *testing.T) {
-	l := New(fi, "", Ltime|Ldate|Lshortfile)
+	fi, err := openFile()
+	if err != nil {
+		t.Error(err)
+	}
+	defer fi.Close()
+	l := New(fi, "", Ftime|Fdate|Ffile, "")
 	if l == nil {
 		t.Error("初始化有误！")
 	}
 	l.Open()
-	l.SetFlags(Ltime | Ldate)
+	l.SetPrefix(" PREFIX ")
+	//l.SetFlags(Ftime | Fdate)
 	l.SetLevel(ALL)
 	msg := "println info ~"
 	l.Println(msg)
@@ -432,6 +514,11 @@ func TestLogger_Println(t *testing.T) {
 	if !strings.Contains(str, msg) {
 		t.Error("错误: 未写入文件")
 	}
+}
+
+// 打开文件
+func openFile() (*os.File, error) {
+	return os.OpenFile(fileName, os.O_APPEND|os.O_CREATE, 0777)
 }
 
 // 读文件

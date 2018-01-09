@@ -5,13 +5,13 @@ import "thelark.cn/golang.ext/color/console"
 type __LogLevel__ uint // log 级别
 
 const (
-	OFF   __LogLevel__ = iota + 1 // 1
-	FATAL                         // 2
-	ERROR                         // 3
-	WARN                          // 4
-	INFO                          // 5
-	DEBUG                         // 6
-	ALL                           // 7
+	OFF   __LogLevel__ = iota + 1
+	FATAL
+	ERROR
+	WARN
+	INFO
+	DEBUG
+	ALL
 )
 
 var __LogLevelName__ = map[__LogLevel__]string{
